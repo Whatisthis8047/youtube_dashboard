@@ -32,7 +32,6 @@ def main():
 
     st.subheader("트렌드 분석")
     group_df = conn.query(f"SELECT * FROM sample_label WHERE `Group` = '{st.session_state['idol_group']}';", ttl=600)
-    group_df['date'] = pd.to_datetime(group_df['date'])
 
     fig = create_sentiment_chart(group_df, selected_group)
     selected_points = sentiment_plot(fig, key="trend_analysis", click_event=True)

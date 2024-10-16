@@ -4,30 +4,15 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-def load_data():
-    df = pd.read_csv('static/sample_label.csv')
-    df['date'] = pd.to_datetime(df['date'])
-    return df
-
 def sentiment_plot(fig, key, click_event=False):
     return plotly_events(fig, click_event=click_event, key=key)
 
-def create_sentiment_chart(df, group, mv_title='None'):
+def create_sentiment_chart(df, mv_title='None'):
     # Filter the dataframe for the selected group and title
-    if mv_title == 'None':
-        group_df = df[df['Group'] == group]
-        title = f"Sentiment Timeline for {group}"
-    else:
-        st.write(mv_title)
-        group_df = df[(df['Group'] == group) & (df['Title'] == mv_title)]
-        title = f"Sentiment Timeline for {group} - {mv_title}"
-
-    if group_df.empty:
-        st.warning(f"No data found for group '{group}' and title '{mv_title}'")
-        return None
+    df['date'] = pd.to_datetime(df['date'])
 
     # Group by date and sentiment_label, and count occurrences
-    sentiment_counts = group_df.groupby([group_df['date'].dt.date, 'sentiment_label']).size().unstack(fill_value=0)
+    sentiment_counts = df.groupby([df['date'].dt.date, 'sentiment_label']).size().unstack(fill_value=0)
 
     # Rename columns for clarity
     sentiment_counts.columns = ['Negative', 'Neutral', 'Positive']
@@ -56,7 +41,7 @@ def create_sentiment_chart(df, group, mv_title='None'):
         )
 
     fig.update_layout(
-        title=title,
+        title= "Sentiment Chart",
         xaxis_title="Date",
         yaxis_title="Number of Comments",
         legend_title="Sentiment",

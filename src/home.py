@@ -22,7 +22,7 @@ app_path = "http://localhost:8501"
 selected_group = st.session_state['idol_group']
 idols = ["itzy", "newjeans", "aespa", "lesserafim", "ive", "nmixx"]
 
-conn = st.connection('trendpop', type='sql')
+conn = st.connection('trendpop_db', type='sql', url="mysql+pymysql://keonmo:mysql@localhost:3306/trendpop_db")
 
 def main():
     st.subheader("아티스트")
@@ -31,9 +31,10 @@ def main():
     st.header(st.session_state['idol_group'])
 
     st.subheader("트렌드 분석")
-    df = load_data()
+    group_df = conn.query(f"SELECT * FROM sample_label WHERE `Group` = '{st.session_state['idol_group']}';", ttl=600)
+    group_df['date'] = pd.to_datetime(group_df['date'])
 
-    fig = create_sentiment_chart(df, selected_group)
+    fig = create_sentiment_chart(group_df, selected_group)
     selected_points = sentiment_plot(fig, key="trend_analysis", click_event=True)
 
     st.subheader("이슈 분석")
@@ -58,11 +59,13 @@ def main():
     #     st.write(f"User has sent the following prompt: {prompt}")
 
     st.subheader("뮤직비디오")
-    mv_title = mv_widget(st.session_state['idol_group'])
+    mv_df = conn.query(f"SELECT * FROM thumbnail WHERE `group` = '{st.session_state['idol_group']}';", ttl=600)
+    #set column name
+    mv_title = mv_widget(mv_df, st.session_state['idol_group'])
 
-    st.subheader("감성분석 예측")
-    fig = create_sentiment_chart(df, selected_group, mv_title)
-    sentiment_plot(fig, key="mv_analysis", click_event=False)
+    # st.subheader("감성분석 예측")
+    # fig = create_sentiment_chart(df, selected_group, mv_title)
+    # sentiment_plot(fig, key="mv_analysis", click_event=False)
 
 
     st.subheader("멤버 별 분석")

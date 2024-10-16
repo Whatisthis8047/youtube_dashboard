@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import sys, os
+
 app_path = "http://localhost:8501"
 
 
@@ -127,15 +129,13 @@ def artist_widget(ord:int):
                 )
 
 
-def mv_widget(group):
-    # Load the CSV file
-    df = pd.read_csv('static/thumbnail.csv')
+def mv_widget(df, group):
+    #df = pd.read_csv('src/static/thumbnail.csv')
+    df = df.rename(columns={'C1': 'group', 'C2': 'title', 'C3': 'link', 'C4': 'thumbnail'})
 
     # Filter the dataframe by group if specified
-    if group:
-        df = df[df['group'] == group]
     if df.empty:
-        st.error(f"No videos found for group: {group}")
+        st.error(f"No found for group")
         return 'None'
 
     # Set default video to the first one in the filtered dataframe

@@ -18,6 +18,9 @@ if 'MV_url' not in st.session_state:
 if 'idol_group' not in st.session_state:
     st.session_state['idol_group'] = "ITZY"
 
+if 'sentiment' not in st.session_state:
+    st.session_state['sentiment'] = "None"
+
 app_path = "http://localhost:8501"
 selected_group = st.session_state['idol_group']
 idols = ["itzy", "newjeans", "aespa", "lesserafim", "ive", "nmixx"]
@@ -67,7 +70,22 @@ def main():
     fig = create_sentiment_chart(mv_df)
     sentiment_plot(fig, key="mv_analysis", click_event=False)
 
-    st.subheader("멤버 별 분석")
+    st.header("멤버 별 분석")
+    col1, col2 = st.columns([2, 1])
+    with col1:
+        st.markdown("**멤버/그룹 선택**")
+
+    with col2:
+        st.markdown("**필터**")
+
+        st.radio(
+            "필터",
+            ["None", "Positive", "Neutral", "Negative"],
+            key="sentiment",
+            label_visibility="collapsed"
+        )
+
+
 
 if __name__ == '__main__':
     main()

@@ -1,20 +1,16 @@
 from streamlit_plotly_events import plotly_events
-import streamlit as st
 import pandas as pd
+import streamlit as st
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 def sentiment_plot(fig, key, click_event=False):
     return plotly_events(fig, click_event=click_event, key=key)
 
-def create_sentiment_chart(df, mv_title='None'):
-    # Filter the dataframe for the selected group and title
+def create_sentiment_chart(df):
     df['date'] = pd.to_datetime(df['date'])
-
-    # Group by date and sentiment_label, and count occurrences
     sentiment_counts = df.groupby([df['date'].dt.date, 'sentiment_label']).size().unstack(fill_value=0)
 
-    # Rename columns for clarity
     sentiment_counts.columns = ['Negative', 'Neutral', 'Positive']
 
     color_map = {

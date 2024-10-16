@@ -30,13 +30,13 @@ def main():
     st.divider()
     st.header(st.session_state['idol_group'])
 
-    st.subheader("트렌드 분석")
+    st.subheader("아티스트 감정 지표")
     group_df = conn.query(f"SELECT * FROM sample_label WHERE `Group` = '{st.session_state['idol_group']}';", ttl=600)
 
-    fig = create_sentiment_chart(group_df, selected_group)
+    fig = create_sentiment_chart(group_df)
     selected_points = sentiment_plot(fig, key="trend_analysis", click_event=True)
 
-    st.subheader("이슈 분석")
+    st.subheader("Ask Gemini! 이슈 분석")
     st.chat_message("assistant").write(f"Gemini-1.5-Flash: Select date time points to ask about {selected_group}!")
     st.divider()
 
@@ -58,14 +58,14 @@ def main():
     #     st.write(f"User has sent the following prompt: {prompt}")
 
     st.subheader("뮤직비디오")
-    mv_df = conn.query(f"SELECT * FROM thumbnail WHERE `group` = '{st.session_state['idol_group']}';", ttl=600)
+    mv_thumbnail = conn.query(f"SELECT * FROM thumbnail WHERE `group` = '{st.session_state['idol_group']}';", ttl=600)
     #set column name
-    mv_title = mv_widget(mv_df, st.session_state['idol_group'])
+    mv_title = mv_widget(mv_thumbnail, st.session_state['idol_group'])
 
-    st.subheader("감성분석 예측")
-    fig = create_sentiment_chart(group_df, selected_group, mv_title)
+    st.subheader("뮤직비디오 감정 지표")
+    mv_df = conn.query(f"SELECT * FROM sample_label WHERE `Group` = '{st.session_state['idol_group']}' AND `Title` = '{mv_title}';", ttl=600)
+    fig = create_sentiment_chart(mv_df)
     sentiment_plot(fig, key="mv_analysis", click_event=False)
-
 
     st.subheader("멤버 별 분석")
 

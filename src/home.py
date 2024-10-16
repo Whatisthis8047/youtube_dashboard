@@ -63,9 +63,9 @@ def main():
     #set column name
     mv_title = mv_widget(mv_df, st.session_state['idol_group'])
 
-    # st.subheader("감성분석 예측")
-    # fig = create_sentiment_chart(df, selected_group, mv_title)
-    # sentiment_plot(fig, key="mv_analysis", click_event=False)
+    st.subheader("감성분석 예측")
+    fig = create_sentiment_chart(group_df, selected_group, mv_title)
+    sentiment_plot(fig, key="mv_analysis", click_event=False)
 
 
     st.subheader("멤버 별 분석")

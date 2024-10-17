@@ -54,7 +54,7 @@ def artist_widget(ord:int):
                 st.markdown(
                     f"""
                     <div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">
-                        <a target="_self" href="{app_path}">
+                        <a target="_self" href="{app_path}/LE_SSERAFIM">
                             <img src="https://yt3.googleusercontent.com/4qrLd3kEQp0HKI5kKfewXXHxR_WxBAb7r2-Dp_V4ZHp9XVvLfDQ9OpBa3Nhr1lgkOQuodZzymyU=s160-c-k-c0x00ffffff-no-rj" alt="LE SSERAFIM" width="100%">
                         </a>
                     </div>
@@ -65,7 +65,7 @@ def artist_widget(ord:int):
                 st.markdown(
                     f"""
                     <div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">
-                        <a target="_self" href="{app_path}">
+                        <a target="_self" href="{app_path}/IVE">
                             <img src="https://yt3.googleusercontent.com/Fg5o4LNedtb4kLRjRZ2waWSG_xnAU-IvdO8_HyNGoxC7a1OPYwDFkxFLjpDmb35dPgdhkaYGoVE=s160-c-k-c0x00ffffff-no-rj" alt="IVE" width="100%">
                         </a>
                     </div>
@@ -76,7 +76,7 @@ def artist_widget(ord:int):
                 st.markdown(
                     f"""
                     <div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">
-                        <a target="_self" href="{app_path}">
+                        <a target="_self" href="{app_path}/NMIXX">
                             <img src="https://yt3.googleusercontent.com/jxMyaM3RVSxyma7n8wxBfi_IiMR0RmXXiqBHZyz08ELfyz5jh8Txd1Q-3ma_Zob9QI8v3fwo8g=s160-c-k-c0x00ffffff-no-rj" alt="NMIXX" width="100%">
                         </a>
                     </div>
@@ -87,7 +87,7 @@ def artist_widget(ord:int):
                 st.markdown(
                     f"""
                     <div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">
-                        <a target="_self" href="{app_path}">
+                        <a target="_self" href="{app_path}/tripleS">
                             <img src="https://yt3.googleusercontent.com/e5JEZjIHLs669zNv6sVQtF84QGppJ_2NMoBldOr6OfOBN-vJt5eS9zGvIe5oUGcoeE_JZS8sLZ4=s160-c-k-c0x00ffffff-no-rj" alt="tripleS" width="100%">
                         </a>
                     </div>
@@ -98,7 +98,7 @@ def artist_widget(ord:int):
                 st.markdown(
                     f"""
                     <div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">
-                        <a target="_self" href="{app_path}">
+                        <a target="_self" href="{app_path}/Kep1er">
                             <img src="https://yt3.googleusercontent.com/_nhXya-TB7QYEVPZ8CWxCuR75lcKGp6cihYIzwsrqAcbjpNHwlabKc4okTKTpDVh-GcA7IWN=s160-c-k-c0x00ffffff-no-rj" alt="Kep1er" width="100%">
                         </a>
                     </div>
@@ -109,7 +109,7 @@ def artist_widget(ord:int):
                 st.markdown(
                     f"""
                     <div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">
-                        <a target="_self" href="{app_path}">
+                        <a target="_self" href="{app_path}/FIFTY_FIFTY">
                             <img src="https://yt3.googleusercontent.com/3WVx4yHwddjqDmVHZtGl1IxCEFDs5O74KA9cCmOTPqG-y2l53zTavQzVkQEdYw-tqWYF_PgB=s160-c-k-c0x00ffffff-no-rj" alt="FIFTY FIFTY" width="100%">
                         </a>
                     </div>
@@ -120,7 +120,7 @@ def artist_widget(ord:int):
                 st.markdown(
                     f"""
                     <div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">
-                        <a target="_self" href="{app_path}">
+                        <a target="_self" href="{app_path}"STAYC>
                             <img src="https://yt3.googleusercontent.com/CaeNdw8_MAi96qW5L3bMi-24tSldENUypIoJhjoF1hNFRRDX1U5uqpIbl14qYSQUUxkVJSxWOg=s160-c-k-c0x00ffffff-no-rj" alt="STAYC" width="100%">
                         </a>
                     </div>
@@ -176,15 +176,15 @@ def mv_widget(df, group):
     """, unsafe_allow_html=True)
 
     # Create a grid layout
-    cols = st.columns(4)
+    cols = st.columns(10)
 
     # Variable to store the selected video URL
     selected_video_url = None
     selected_video_title = None
-
     # Display thumbnails in a grid
+
     for index, row in df.iterrows():
-        col = cols[index % 4]
+        col = cols[index % 10]
         with col:
             # Container for thumbnail and button
             with st.container():

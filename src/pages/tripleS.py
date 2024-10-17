@@ -12,13 +12,13 @@ st.title('K-Pop YouTube Comment Analysis')
 # session state 선언
 app_path = "http://localhost:8501"
 page_path = "pages/"
-st.session_state['idol_group'] = "aespa"
+st.session_state['idol_group'] = "tripleS"
 selected_group = st.session_state['idol_group']
 conn = st.connection('trendpop_db', type='sql', url="mysql+pymysql://keonmo:mysql@localhost:3306/trendpop_db")
 
 def main():
     st.subheader("아티스트")
-    artist_widget(2)
+    artist_widget(8)
     st.divider()
     st.header(st.session_state['idol_group'])
 

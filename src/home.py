@@ -1,15 +1,6 @@
-import streamlit as st
-# from streamlit_extras.switch_page_button import switch_page
-from utils.plot import *
-from utils.gemini import create_prompt, get_chatbot_response
-from utils.widgets import *
-import pandas as pd
-import numpy as np
-import random
-from streamlit_plotly_events import plotly_events
+from utils import *
 
-st.set_page_config(page_title="TrendPop", initial_sidebar_state="collapsed") #layout="wide"
-st.title('K-Pop YouTube Comment Analysis')
+st.set_page_config(page_title="TrendPop", initial_sidebar_state="collapsed",layout="wide") #layout="wide"
 
 # session state 선언
 if 'MV_url' not in st.session_state:
@@ -28,6 +19,18 @@ idols = ["itzy", "newjeans", "aespa", "lesserafim", "ive", "nmixx"]
 conn = st.connection('trendpop_db', type='sql', url="mysql+pymysql://keonmo:mysql@localhost:3306/trendpop_db")
 
 def main():
+    #set page margin
+    margins_css = """
+        <style>
+            .main > div {
+                padding-left: 30rem;
+                padding-right: 30rem;
+            }
+        </style>
+    """
+    st.markdown(margins_css, unsafe_allow_html=True)
+
+    st.title('K-Pop YouTube Comment Analysis')
     st.subheader("아티스트")
     artist_widget(0)
     st.divider()
@@ -70,20 +73,26 @@ def main():
     fig = create_sentiment_chart(mv_df)
     sentiment_plot(fig, key="mv_analysis", click_event=False)
 
-    st.header("멤버 별 분석")
-    col1, col2 = st.columns([2, 1])
+    st.header("그룹/멤버 별 분석")
+
+    col1, col2 = st.columns(2)
     with col1:
-        st.markdown("**멤버/그룹 선택**")
-
+        with st.container(height=150):
+                st.image("src/static/있지_류진.jpeg")
+                st.write("ITZY: 류진")
     with col2:
-        st.markdown("**필터**")
+        with st.container(height=150):
+                st.image("src/static/있지_류진.jpeg")
+                st.write("ITZY: 류진")
 
-        st.radio(
-            "필터",
-            ["None", "Positive", "Neutral", "Negative"],
-            key="sentiment",
-            label_visibility="collapsed"
-        )
+    st.markdown("**키워드**")
+    st.markdown("**필터**")
+    st.radio(
+        "필터",
+        ["None", "Positive", "Neutral", "Negative"],
+        key="sentiment",
+        label_visibility="collapsed"
+    )
 
 
 

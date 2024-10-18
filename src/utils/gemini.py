@@ -25,7 +25,7 @@ def create_prompt(group, date, sentiment, value):
 
     prompt = f"""
     {start_date} 와 {end_date} 사이에 한국 아이돌 '{group}' 에 대해 {sentiment_word}한 뉴스 기사 세 개를 뽑아서 다음 마크다운 형식처럼 보여줘.:
-    기사 링크의 기사의 제목과 내용은 일치해야 해.
+    기사 링크의 기사의 제목과 내용은 일치 하도록 해. 정보가 없을 때는 정보가 없다고 이야기 해.
     1. 기사 링크]: [한 줄 요약]
     2.
     3.

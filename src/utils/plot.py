@@ -13,10 +13,16 @@ def sentiment_plot(fig, key, click_event=False):
 def create_sentiment_chart(df, group_by='week'):
     df['date'] = pd.to_datetime(df['date'])
 
-    if group_by == 'week':
-        df['group'] = df['date'].dt.to_period('W').apply(lambda r: r.start_time)
-    else:  # default to daily if not weekly
+    if group_by == 'day':
         df['group'] = df['date'].dt.date
+    elif group_by == 'week':
+        df['group'] = df['date'] - pd.to_timedelta(df['date'].dt.dayofweek, unit='D')
+    elif group_by == 'month':
+        df['group'] = df['date'].dt.to_period('M').astype(str).astype('datetime64[ns]')
+    elif group_by == '6month':
+        df['group'] = df['date'] - pd.tseries.offsets.DateOffset(months=(df['date'].dt.month - 1) % 6)
+    else:
+        raise ValueError("Invalid group_by value. Choose 'day', 'week', 'month', or '6month'.")
 
     sentiment_counts = df.groupby([df['date'].dt.date, 'predicted_label']).size().unstack(fill_value=0)
 

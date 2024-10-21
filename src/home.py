@@ -68,8 +68,9 @@ def main():
         st.chat_message("assistant").write(
         f"Gemini-1.5-Flash: {selected_group}에게 {selected_point[0]['x']} 기간에 있던 일을 찾아볼까요?")
         ask_button = st.button("Ask Gemini!")
-        # if ask_button:
-            #chatbot_response = get_chatbot_response()
+        if ask_button:
+            chatbot_response = get_chatbot_response(selected_group, selected_point[0]['x'])
+            st.markdown(chatbot_response)
     else:
         st.chat_message("assistant").write(
         f"Gemini-1.5-Flash: 그래프를 클릭해서 {selected_group}에 대해 물어보세요!")

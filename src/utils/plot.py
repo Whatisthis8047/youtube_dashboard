@@ -33,10 +33,12 @@ def create_frequency_chart(df, window_length=7, polyorder=3, date_range=None):
         y=smoothed_comments,
         mode='lines',
         name='Total Comments',
-        opacity=0.9,
-        line=dict(color='black'),
+        opacity=1,
+        fill='tozeroy',
+        line=dict(color='#7A70C6'),
         hovertemplate='Date: %{x|%Y-%m-%d}<br>Comments: %{y:.0f}<extra></extra>'
-    ))
+    )
+    )
 
     fig.add_trace(go.Scatter(
         x=total_comments.index,
@@ -44,7 +46,7 @@ def create_frequency_chart(df, window_length=7, polyorder=3, date_range=None):
         mode='lines',
         name='Total Comments',
         opacity=0.5,
-        line=dict(color='#1f77b4', width=0.3),
+        line=dict(color='#7A70C6', width=0.3),
         hovertemplate='Date: %{x|%Y-%m-%d}<br>Comments: %{y:.0f}<extra></extra>'
     ))
 
@@ -71,7 +73,6 @@ def create_frequency_chart(df, window_length=7, polyorder=3, date_range=None):
         fig.update_xaxes(range=date_range)
 
     return fig
-
 def create_sentiment_chart(df, window_length=60, polyorder=3, date_range=None):
     df['date'] = pd.to_datetime(df['date'])
     grouped = df.groupby([df['date'].dt.date, 'predicted_label']).size().unstack(fill_value=0)
@@ -93,7 +94,7 @@ def create_sentiment_chart(df, window_length=60, polyorder=3, date_range=None):
         y_smooth = savgol_filter(y, window_length, polyorder)
         smoothed_data[col] = y_smooth
 
-    colors = ['#1f77b4', '#c0c0c0', '#ff7f7f']  # Blue, Gray, Red for Positive, Neutral, Negative
+    colors = ['#1f77b4', '#c0c0c0', '#ff7f7f']
     labels = ['Positive', 'Neutral', 'Negative']
     column_order = [2, 1, 0]  # Corresponding to Positive, Neutral, Negative
 
@@ -102,8 +103,7 @@ def create_sentiment_chart(df, window_length=60, polyorder=3, date_range=None):
             x=smoothed_data.index,
             y=smoothed_data[col],
             mode='lines',
-            stackgroup='one',
-            line=dict(width=0.5, color=colors[i]),
+            line=dict(width=2, color=colors[i]),
             name=f"{labels[i]}",
             hoverinfo='y',
             hovertemplate=f'{labels[i]}: ' + '%{y:.2f}%<extra></extra>'
@@ -138,5 +138,72 @@ def create_sentiment_chart(df, window_length=60, polyorder=3, date_range=None):
     fig.update_layout(clickmode='event')
 
     return fig
+
+# def create_sentiment_chart1(df, window_length=60, polyorder=3, date_range=None):
+#     df['date'] = pd.to_datetime(df['date'])
+#     grouped = df.groupby([df['date'].dt.date, 'predicted_label']).size().unstack(fill_value=0)
+#
+#     for label in [0, 1, 2]:
+#         if label not in grouped.columns:
+#             grouped[label] = 0
+#
+#     grouped = grouped.sort_index(axis=1)
+#
+#     grouped_percentage = grouped.div(grouped.sum(axis=1), axis=0) * 100
+#
+#     # Create the stacked area chart
+#     fig = go.Figure()
+#
+#     smoothed_data = pd.DataFrame(index=grouped_percentage.index, columns=grouped_percentage.columns)
+#     for col in grouped_percentage.columns:
+#         y = grouped_percentage[col].values
+#         y_smooth = savgol_filter(y, window_length, polyorder)
+#         smoothed_data[col] = y_smooth
+#
+#     colors = ['#1f77b4', '#c0c0c0', '#ff7f7f']  # Blue, Gray, Red for Positive, Neutral, Negative
+#     labels = ['Positive', 'Neutral', 'Negative']
+#     column_order = [2, 1, 0]  # Corresponding to Positive, Neutral, Negative
+#
+#     for i, col in enumerate(column_order):
+#         fig.add_trace(go.Scatter(
+#             x=smoothed_data.index,
+#             y=smoothed_data[col],
+#             mode='lines',
+#             stackgroup='one',
+#             line=dict(width=0.5, color=colors[i]),
+#             name=f"{labels[i]}",
+#             hoverinfo='y',
+#             hovertemplate=f'{labels[i]}: ' + '%{y:.2f}%<extra></extra>'
+#         ))
+#
+#     fig.update_layout(
+#         yaxis_title='비율',
+#         xaxis_title='날짜',
+#         hovermode='x unified',
+#         margin=dict(t=0, l=50, r=50, b=80),
+#         legend=dict(
+#             orientation="h",
+#             yanchor="top",
+#             y=1.02,
+#             xanchor="right",
+#             x=1,
+#             bgcolor="rgba(255,255,255,0.5)"
+#         )
+#     )
+#
+#     fig.update_yaxes(
+#         range=[0, 100],
+#         ticksuffix='%'
+#     )
+#     fig.update_xaxes(
+#         hoverformat="%Y-%m-%d"
+#     )
+#     if date_range:
+#         fig.update_xaxes(range=date_range)
+#
+#     # Add click event to return date and sentiment
+#     fig.update_layout(clickmode='event')
+#
+#     return fig
 
 

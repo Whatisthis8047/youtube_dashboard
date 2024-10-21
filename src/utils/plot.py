@@ -33,6 +33,7 @@ def create_frequency_chart(df, window_length=7, polyorder=3, date_range=None):
         y=smoothed_comments,
         mode='lines',
         name='Total Comments',
+        opacity=0.9,
         line=dict(color='black'),
         hovertemplate='Date: %{x|%Y-%m-%d}<br>Comments: %{y:.0f}<extra></extra>'
     ))
@@ -42,8 +43,8 @@ def create_frequency_chart(df, window_length=7, polyorder=3, date_range=None):
         y=total_comments,
         mode='lines',
         name='Total Comments',
-        opacity=0.4,
-        line=dict(color='black', width=0.3),
+        opacity=0.5,
+        line=dict(color='#1f77b4', width=0.3),
         hovertemplate='Date: %{x|%Y-%m-%d}<br>Comments: %{y:.0f}<extra></extra>'
     ))
 

@@ -54,11 +54,6 @@ def main():
         sentiment_plot(freq_fig, key= "frequency_chart")
         fig = create_sentiment_chart(group_df[['Group', 'Title', 'date', 'predicted_label']], date_range=[min_date, max_date])
         selected_point = sentiment_plot(fig, key="sentiment_chart")
-        st.write(selected_point)
-
-    st.subheader("Ask Gemini! 이슈 분석")
-    st.chat_message("assistant").write(f"Gemini-1.5-Flash: Select date time points to ask about {selected_group}!")
-    st.divider()
 
     # 클릭시 event 발생, 제미나이에게 물어보기 (gemini.py파일)
     # if selected_point:
@@ -68,13 +63,16 @@ def main():
         #     f"Showing 3 {sentiment_map[sentiment]} news links related to K-pop group '{selected_group}' during {date}:")
         # st.markdown(chatbot_response)
 
-    with st.form("ask_gemini"):
-        # if freq_fig or fig:
-        #     st.write(fig) if fig else st.write(freq_fig)
-        ask_sentiment = st.radio("ask_sentiment", ["부정", "중립", "긍정"], horizontal=True)
-        submitted = st.form_submit_button("Ask Gemini!")
-        if submitted:
-            st.write(f"fig, {ask_sentiment}")
+    st.subheader("Ask Gemini! 이슈 분석")
+    if selected_point:
+        st.chat_message("assistant").write(
+        f"Gemini-1.5-Flash: {selected_group}에게 {selected_point[0]['x']} 기간에 있던 일을 찾아볼까요?")
+        ask_button = st.button("Ask Gemini!")
+        # if ask_button:
+            #chatbot_response = get_chatbot_response()
+    else:
+        st.chat_message("assistant").write(
+        f"Gemini-1.5-Flash: 그래프를 클릭해서 {selected_group}에 대해 물어보세요!")
 
     st.subheader("뮤직비디오")
 
@@ -131,27 +129,20 @@ def main():
     with comment_col:
         st.markdown(f"선택된 필터| &ensp;&ensp; 키워드: {selected_keyword} &ensp;&ensp; 감정: {selected_sentiment}")
 
-        filtered_comments = filter_kpop_comments(
-                comment_df if selected_member['title'] == 'All' else comment_df[comment_df['Title'] == selected_member['title']],
-                member_filter=selected_member['title'],
+        if mv_info is None:
+            filtered_comments = filter_kpop_comments(
+                comment_df,
+                member_filter='All' if selected_member['title'] == 'All' else selected_member['title'],
                 keyword_filter=selected_keyword[1:],
                 sentiment_filter=selected_sentiment
             )
-
-        # if mv_info is None:
-        #     filtered_comments = filter_kpop_comments(
-        #         comment_df if selected_member['title'] == 'All' else comment_df[comment_df['Title'] == selected_member['title']],
-        #         member_filter='All',
-        #         keyword_filter=selected_keyword[1:],
-        #         sentiment_filter=selected_sentiment
-        #     )
-        # else:
-        #     filtered_comments = filter_kpop_comments(
-        #         comment_df,
-        #         member_filter=selected_member['title'],
-        #         keyword_filter=selected_keyword[1:],
-        #         sentiment_filter=selected_sentiment
-        #     )
+        else:
+            filtered_comments = filter_kpop_comments(
+                comment_df,
+                member_filter='All' if selected_member['title'] == mv_info['title'] else selected_member['title'],
+                keyword_filter=selected_keyword[1:],
+                sentiment_filter=selected_sentiment
+            )
 
         # shown_comments = shown_comments[['comment', 'likes', 'date']]
         st.dataframe(filtered_comments,use_container_width=True)

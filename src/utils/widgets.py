@@ -120,7 +120,7 @@ def artist_widget(ord:int):
                 st.markdown(
                     f"""
                     <div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">
-                        <a target="_self" href="{app_path}"STAYC>
+                        <a target="_self" href="{app_path}/STAYC">
                             <img src="https://yt3.googleusercontent.com/CaeNdw8_MAi96qW5L3bMi-24tSldENUypIoJhjoF1hNFRRDX1U5uqpIbl14qYSQUUxkVJSxWOg=s160-c-k-c0x00ffffff-no-rj" alt="STAYC" width="100%">
                         </a>
                     </div>

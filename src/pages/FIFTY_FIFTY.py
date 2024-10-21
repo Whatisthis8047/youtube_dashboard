@@ -37,24 +37,27 @@ def main():
     st.subheader("아티스트 감정 지표") # TO-DO: 관심도 지표 만들기
     all_data = fetch_all_data(conn, selected_group)
     group_df = all_data['group_comments']
-    fig = create_sentiment_chart(group_df, group_by='month')
-    selected_points = sentiment_plot(fig, key="trend_analysis", click_event=True)
+
+    with st.container():
+        min_date, max_date = get_date_range(group_df[['date']])
+        freq_fig = create_frequency_chart(group_df[['Group', 'Title', 'date', 'predicted_label']], date_range=[min_date, max_date])
+        sentiment_plot(freq_fig, key= "frequency_chart")
+        fig = create_sentiment_chart(group_df[['Group', 'Title', 'date', 'predicted_label']], date_range=[min_date, max_date])
+        selected_point = sentiment_plot(fig, key="sentiment_chart")
 
     st.subheader("Ask Gemini! 이슈 분석")
-    st.chat_message("assistant").write(f"Gemini-1.5-Flash: Select date time points to ask about {selected_group}!")
-    st.divider()
-
-    # 클릭시 event 발생, 제미나이에게 물어보기 (gemini.py파일)
-    if selected_points:
-        point = selected_points[0]
-        date, value, sentiment = point['x'], point['y'], point['curveNumber']
-        sentiment_map = {0: "Negative", 1: "Neutral", 2: "Positive"}
-        chatbot_response = get_chatbot_response(selected_group, date, sentiment_map[sentiment], value)
-        st.write(
-            f"Showing 3 {sentiment_map[sentiment]} news links related to K-pop group '{selected_group}' during {date}:")
-        st.markdown(chatbot_response)
+    if selected_point:
+        st.chat_message("assistant").write(
+        f"Gemini-1.5-Flash: {selected_group}에게 {selected_point[0]['x']} 기간에 있던 일을 찾아볼까요?")
+        ask_button = st.button("Ask Gemini!")
+        # if ask_button:
+            #chatbot_response = get_chatbot_response()
+    else:
+        st.chat_message("assistant").write(
+        f"Gemini-1.5-Flash: 그래프를 클릭해서 {selected_group}에 대해 물어보세요!")
 
     st.subheader("뮤직비디오")
+
     mv_info = carousel_component(data=all_data['mv_thumbnail'], layout='default', key='mv_carousel')
 
     if mv_info is None:
@@ -74,12 +77,11 @@ def main():
 
     st.header("그룹/멤버 별 분석")
     if mv_info is None:
-        member_thumbnail = all_data['member_thumbnail']
+        member_thumbnail = all_data['member_thumbnail'][all_data['member_thumbnail']['title'] == 'All']
     else:
         member_thumbnail = all_data['member_thumbnail'][all_data['member_thumbnail']['title'] == encoded_title]
 
     # 기본 값 설정 (없을 시 오류)
-    st.write(member_thumbnail)
     default_selected_member = {'title': 'All', 'description': "#노래, #류진, #한국인, #사랑해, #채령"}
     selected_member = carousel_component(data=member_thumbnail, layout='alternate', key="member_carousel") or default_selected_member
 
@@ -111,15 +113,15 @@ def main():
 
         if mv_info is None:
             filtered_comments = filter_kpop_comments(
-                comment_df if selected_member['title'] == 'All' else comment_df[comment_df['Title'] == selected_member['title']],
-                member_filter='All',
+                comment_df,
+                member_filter='All' if selected_member['title'] == 'All' else selected_member['title'],
                 keyword_filter=selected_keyword[1:],
                 sentiment_filter=selected_sentiment
             )
         else:
             filtered_comments = filter_kpop_comments(
                 comment_df,
-                member_filter=selected_member['title'],
+                member_filter='All' if selected_member['title'] == mv_info['title'] else selected_member['title'],
                 keyword_filter=selected_keyword[1:],
                 sentiment_filter=selected_sentiment
             )

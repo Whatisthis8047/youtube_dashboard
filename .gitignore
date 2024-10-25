@@ -1,6 +1,7 @@
 /src/carousel_component/frontend/node_modules/
 /src/static
 /src/utils/__pycache__
+/src/utils/config.py
 # Created by https://www.toptal.com/developers/gitignore/api/macos,pycharm,react
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,pycharm,react
 

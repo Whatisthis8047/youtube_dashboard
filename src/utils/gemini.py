@@ -27,8 +27,8 @@ genai.configure(api_key=config.GOOGLE_API_KEY)
 # Initialize the model
 model = genai.GenerativeModel('gemini-1.5-flash')
 
-os.environ["GOOGLE_API_KEY"] = ''
-os.environ["OPENAI_API_KEY"] = ''
+os.environ["GOOGLE_API_KEY"] = config.GOOGLE_API_KEY
+os.environ["OPENAI_API_KEY"] = config.OPEN_API_KEY
 
 embeddings = OpenAIEmbeddings()
 def similarity_search(news_db, query, k=3):

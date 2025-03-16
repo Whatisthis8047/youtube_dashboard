@@ -22,7 +22,7 @@ def artist_widget(ord:int):
                     f"""
                     <div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">
                         <a target="_self" href="{app_path}">
-                            <img src="https://yt3.googleusercontent.com/6jkoL_f5fcFSsIJwDBF7OWVXXWZ6NJp-n9UxeS3QY6vPClfLE_ZDpns20rhbZJ3spC8cUVoX=s160-c-k-c0x00ffffff-no-rj" alt="ITZY" width="100%">
+                            <img src="https://yt3.googleusercontent.com/QqNlqIWTZeuemo8QMTgti_cH_6OoT5I7n2JnyBI-3aATgUPzZ1ibPpcaSJWzzIKG8-YAtcHw=s176-c-k-c0x00ffffff-no-rj-mo" alt="ITZY" width="100%">
                         </a>
                     </div>
                     """,
@@ -110,7 +110,7 @@ def artist_widget(ord:int):
                     f"""
                     <div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">
                         <a target="_self" href="{app_path}/FIFTY_FIFTY">
-                            <img src="https://yt3.googleusercontent.com/3WVx4yHwddjqDmVHZtGl1IxCEFDs5O74KA9cCmOTPqG-y2l53zTavQzVkQEdYw-tqWYF_PgB=s160-c-k-c0x00ffffff-no-rj" alt="FIFTY FIFTY" width="100%">
+                            <img src="https://yt3.googleusercontent.com/3eu7rehkMz0kBl2AnBXKsCTO8h54JUOeO7fVG29BURFsF8c9Z4WDn1QH_kBwNy6dlJ61ylck_Q=s176-c-k-c0x00ffffff-no-rj-mo" alt="FIFTY FIFTY" width="100%">
                         </a>
                     </div>
                     """,
@@ -121,7 +121,7 @@ def artist_widget(ord:int):
                     f"""
                     <div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">
                         <a target="_self" href="{app_path}/STAYC">
-                            <img src="https://yt3.googleusercontent.com/CaeNdw8_MAi96qW5L3bMi-24tSldENUypIoJhjoF1hNFRRDX1U5uqpIbl14qYSQUUxkVJSxWOg=s160-c-k-c0x00ffffff-no-rj" alt="STAYC" width="100%">
+                            <img src="https://yt3.googleusercontent.com/TB5GnK01f6FZfQ8vmkZqXaSuKg7zlRahKAN9lbTazUs3C_FMaOuenCtFgDxwNL4Lm2SEzw1HRek=s176-c-k-c0x00ffffff-no-rj-mo" alt="STAYC" width="100%">
                         </a>
                     </div>
                     """,
